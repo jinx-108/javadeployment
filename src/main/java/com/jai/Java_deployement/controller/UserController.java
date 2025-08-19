@@ -1,6 +1,7 @@
 package com.jai.Java_deployement.controller;
 
 
+import com.jai.Java_deployement.dto.UserDto;
 import com.jai.Java_deployement.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,18 +21,23 @@ public class UserController {
     UserService userService;
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable int id){
-        return new ResponseEntity<User>(userService.findUserById(id), HttpStatus.OK);
+    public ResponseEntity<UserDto> findUserById(@PathVariable int id){
+        return new ResponseEntity<UserDto>(userService.findUserById(id), HttpStatus.OK);
     }
 
-    @PostMapping()
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        return new ResponseEntity<User>(userService.addUser(user), HttpStatus.CREATED);
+    @PostMapping("/")
+    public ResponseEntity<UserDto> addUser(@RequestBody UserDto userDto){
+        return new ResponseEntity<UserDto>(userService.addUser(userDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/withoutdto", produces = "application/json")
+    public ResponseEntity<User> addUserWithoutDto(@RequestBody User user){
+        return new ResponseEntity<User>(userService.addUserWithoutDto(user), HttpStatus.CREATED);
     }
 
     @GetMapping()
-    public ResponseEntity<List<User>> getAllUsers(){
-        return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
+    public ResponseEntity<List<UserDto>> getAllUsers(){
+        return new ResponseEntity<List<UserDto>>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/test-error", produces = "application/json")
